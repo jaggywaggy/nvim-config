@@ -27,3 +27,8 @@ map('n', '<leader>fs', "<cmd>lua require('telescope.builtin').current_buffer_fuz
 
 -- Grep for word under cursor (normal mode)
 map('n', '<leader>fw', "<cmd>lua require('telescope.builtin').grep_string()<CR>", opts)
+
+--
+-- Generic
+--
+map('n', '<leader>pv', ':Ex<CR>', { noremap = true, silent = true })

@@ -14,8 +14,12 @@ return {
   -- With lazy the plugin will be automatically loaded when it is required somewhere
   { "folke/which-key.nvim", lazy = true },
 
+  { 'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' }},
+
   { "nvim-lua/plenary.nvim", lazy = true },
+
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' },
+
   {
     "nvim-neorg/neorg",
     -- lazy-load on filetype
