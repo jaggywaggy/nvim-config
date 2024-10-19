@@ -66,3 +66,15 @@ vim.api.nvim_set_hl(0, "CursorLine", {bg = "#1e2030"})
 -- Glowing matching parens
 vim.api.nvim_set_hl(0, "MatchParen", {fg = "#ff9e64", underline = true, bold = true})
 
+vim.opt.clipboard = "unnamedplus"
+
+-- Set tabs instead of spaces for GDScript
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "gdscript",
+  callback = function()
+    vim.opt_local.expandtab = false  -- Use tabs instead of spaces
+    vim.opt_local.tabstop = 4        -- Number of spaces a tab counts for
+    vim.opt_local.shiftwidth = 4     -- Indentation width
+  end
+})
+
