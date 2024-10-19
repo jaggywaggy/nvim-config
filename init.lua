@@ -66,7 +66,6 @@ vim.api.nvim_set_hl(0, "CursorLine", {bg = "#1e2030"})
 -- Glowing matching parens
 vim.api.nvim_set_hl(0, "MatchParen", {fg = "#ff9e64", underline = true, bold = true})
 
-<<<<<<< HEAD
 vim.opt.clipboard = "unnamedplus"
 
 -- Set tabs instead of spaces for GDScript
