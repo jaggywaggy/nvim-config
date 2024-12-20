@@ -90,4 +90,33 @@ return {
   -- This will use {config.dev.path}/noice.nvim/ instead of fetching it from GitHub
   -- With the dev option, you can easily switch between the local and installed version of a plugin
   { "folke/noice.nvim", dev = true },
+
+  -- debug go
+  {
+    'mfussenegger/nvim-dap',
+    dependencies = {
+      'leoluz/nvim-dap-go',  -- Go adapter for nvim-dap
+      'rcarriga/nvim-dap-ui',  -- UI for nvim-dap
+      'theHamsta/nvim-dap-virtual-text',  -- Inline variable values
+    },
+    config = function()
+      local dap = require('dap')
+      local dapui = require('dapui')
+      -- Setup DAP UI
+      dapui.setup()
+      -- Automatically open/close DAP UI
+      dap.listeners.after.event_initialized['dapui_config'] = function()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated['dapui_config'] = function()
+        dapui.close()
+      end
+      dap.listeners.before.event_exited['dapui_config'] = function()
+        dapui.close()
+      end
+
+      -- Setup DAP for Go
+      require('dap-go').setup()
+    end,
+  },
 }

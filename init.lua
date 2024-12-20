@@ -70,11 +70,11 @@ vim.opt.clipboard = "unnamedplus"
 
 -- Set tabs instead of spaces for GDScript
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "gdscript",
+  pattern = "*",
   callback = function()
-    vim.opt_local.expandtab = false  -- Use tabs instead of spaces
-    vim.opt_local.tabstop = 4        -- Number of spaces a tab counts for
-    vim.opt_local.shiftwidth = 4     -- Indentation width
+    vim.opt_local.expandtab = true   -- Use tabs instead of spaces
+    vim.opt_local.tabstop = 2        -- Number of spaces a tab counts for
+    vim.opt_local.shiftwidth = 2     -- Indentation width
   end
 })
 
