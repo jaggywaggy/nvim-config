@@ -119,4 +119,30 @@ return {
       require('dap-go').setup()
     end,
   },
+
+  -- lsp
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      -- Basic configuration for LSP
+      --require'lspconfig'.tsserver.setup{}
+      require'lspconfig'.gopls.setup{}
+      require'lspconfig'.jdtls.setup{}
+      -- Add any other LSP servers you want
+    end
+  },
+  {
+    "williamboman/mason.nvim",
+    config = function()
+      require("mason").setup()
+    end
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    config = function()
+      require("mason-lspconfig").setup({
+        ensure_installed = { "tsserver", "gopls", "jdtls" }
+      })
+    end
+  },
 }

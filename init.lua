@@ -44,6 +44,35 @@ require('lualine').setup {
   extensions = {}
 }
 
+-- nvim-lspconfig configuration for Java
+require'lspconfig'.jdtls.setup{
+  cmd = {
+    "java",  -- Path to your `java` binary, you might need to specify the full path
+    "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+    "-Dosgi.bundles.defaultStartLevel=4",
+    "-Declipse.product=org.eclipse.jdt.ls.core.product",
+    "-Dlog.protocol=true",
+    "-Dlog.level=ALL",
+    "-Xms1g",
+    "-jar", vim.fn.glob(vim.fn.stdpath('data')..'/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar'),
+    "-configuration", vim.fn.glob(vim.fn.stdpath('data')..'/mason/packages/jdtls/config_linux'),
+    "-data", vim.fn.stdpath('data').."/mason/packages/jdtls/workspace"  -- Specify workspace directory
+  },
+  on_attach = function(client, bufnr)
+    -- Optional: Set keybindings for LSP functions
+    local bufopts = { noremap = true, silent = true, buffer = bufnr }
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)  -- Go to definition
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)         -- Show hover information
+  end,
+  settings = {
+    java = {
+      configuration = {
+        -- Add any Java-specific settings here if required
+      }
+    }
+  }
+}
+
 -- Load the tokyonight theme
 vim.cmd[[colorscheme tokyonight]]
 
