@@ -46,31 +46,62 @@ require('lualine').setup {
 
 -- nvim-lspconfig configuration for Java
 require'lspconfig'.jdtls.setup{
-  cmd = {
-    "java",  -- Path to your `java` binary, you might need to specify the full path
-    "-Declipse.application=org.eclipse.jdt.ls.core.id1",
-    "-Dosgi.bundles.defaultStartLevel=4",
-    "-Declipse.product=org.eclipse.jdt.ls.core.product",
-    "-Dlog.protocol=true",
-    "-Dlog.level=ALL",
-    "-Xms1g",
-    "-jar", vim.fn.glob(vim.fn.stdpath('data')..'/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar'),
-    "-configuration", vim.fn.glob(vim.fn.stdpath('data')..'/mason/packages/jdtls/config_linux'),
-    "-data", vim.fn.stdpath('data').."/mason/packages/jdtls/workspace"  -- Specify workspace directory
-  },
-  on_attach = function(client, bufnr)
-    -- Optional: Set keybindings for LSP functions
-    local bufopts = { noremap = true, silent = true, buffer = bufnr }
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)  -- Go to definition
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)         -- Show hover information
-  end,
-  settings = {
-    java = {
-      configuration = {
-        -- Add any Java-specific settings here if required
-      }
+    cmd = {
+        "java",
+        "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+        "-Dosgi.bundles.defaultStartLevel=4",
+        "-Declipse.product=org.eclipse.jdt.ls.core.product",
+        "-Dlog.protocol=true",
+        "-Dlog.level=ALL",
+        "-Xms1g",
+        "-jar", vim.fn.glob(vim.fn.stdpath('data')..'/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar'),
+        "-configuration", vim.fn.glob(vim.fn.stdpath('data')..'/mason/packages/jdtls/config_linux'),
+        "-data", vim.fn.stdpath('data').."/jdtls-workspaces/"..vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
+    },
+    root_dir = require('jdtls.setup').find_root({
+        "build.gradle", "settings.gradle", "pom.xml", ".git"  -- Root markers for Gradle/Maven projects
+    }),
+    on_attach = function(client, bufnr)
+        -- Optional: Set keybindings for LSP functions
+        local bufopts = { noremap = true, silent = true, buffer = bufnr }
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)  -- Go to definition
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)         -- Show hover information
+    end,
+    settings = {
+        java = {
+            configuration = {
+                runtimes = {
+                    {
+                        name = "JavaSE-17",
+                        path = "/path/to/java17",  -- Update this path to your Java 17 installation
+                    },
+                    {
+                        name = "JavaSE-11",
+                        path = "/path/to/java11",  -- Optional: Java 11 fallback
+                    }
+                }
+            }
+        }
     }
-  }
+}
+
+local dap = require('dap')
+
+-- Configure the Java Debug Adapter
+dap.adapters.java = {
+  type = 'server',
+  host = '127.0.0.1',
+  port = 5005, -- Default port for JDWP
+}
+
+dap.configurations.java = {
+  {
+    type = 'java',
+    request = 'attach',
+    name = 'Attach to Java Process',
+    hostName = '127.0.0.1',
+    port = 5005,
+  },
 }
 
 -- Load the tokyonight theme
@@ -96,15 +127,5 @@ vim.api.nvim_set_hl(0, "CursorLine", {bg = "#1e2030"})
 vim.api.nvim_set_hl(0, "MatchParen", {fg = "#ff9e64", underline = true, bold = true})
 
 vim.opt.clipboard = "unnamedplus"
-
--- Set tabs instead of spaces for GDScript
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "*",
-  callback = function()
-    vim.opt_local.expandtab = true   -- Use tabs instead of spaces
-    vim.opt_local.tabstop = 2        -- Number of spaces a tab counts for
-    vim.opt_local.shiftwidth = 2     -- Indentation width
-  end
-})
 
 vim.opt.clipboard = 'unnamedplus'
