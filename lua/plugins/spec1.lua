@@ -81,10 +81,6 @@ return {
         keys = { "<C-a>", { "<C-x>", mode = "n" } },
     },
 
-    -- Local or custom plugins (example placeholders)
-    { url = "git@github.com:folke/noice.nvim.git" },
-    { "folke/noice.nvim", dev = true },
-
     -- Debug (DAP) for Go
     {
         "mfussenegger/nvim-dap",
@@ -142,6 +138,5 @@ return {
 
         end,
     },
-
 }
 
