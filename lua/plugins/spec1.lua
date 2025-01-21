@@ -138,5 +138,31 @@ return {
 
         end,
     },
+    {
+        "nvim-telescope/telescope.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = function()
+            local telescope = require("telescope")
+            telescope.setup({
+                defaults = {
+                    vimgrep_arguments = {
+                        "rg", -- Use ripgrep
+                        "--color=never",
+                        "--no-heading",
+                        "--with-filename",
+                        "--line-number",
+                        "--column",
+                        "--smart-case",
+                    },
+                    prompt_prefix = "🔍 ",
+                    selection_caret = " ",
+                    path_display = { "truncate" },
+                },
+            })
+    
+            -- Optionally load fzf extension if installed
+            pcall(telescope.load_extension, "fzf")
+        end,
+    },
 }
 
