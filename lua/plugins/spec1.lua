@@ -160,7 +160,6 @@ return {
                 },
             })
     
-            -- Optionally load fzf extension if installed
             pcall(telescope.load_extension, "fzf")
         end,
     },
