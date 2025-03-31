@@ -65,7 +65,7 @@ require'lspconfig'.jdtls.setup{
         -- Optional: Set keybindings for LSP functions
         local bufopts = { noremap = true, silent = true, buffer = bufnr }
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)  -- Go to definition
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)         -- Show hover information
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)        -- Show hover information
     end,
     settings = {
         java = {
@@ -73,7 +73,7 @@ require'lspconfig'.jdtls.setup{
                 runtimes = {
                     {
                         name = "JavaSE-17",
-                        path = "/path/to/java17",  -- Update this path to your Java 17 installation
+                        path = "/path/to/java17",
                     },
                     {
                         name = "JavaSE-11",
